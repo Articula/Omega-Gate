@@ -40,12 +40,15 @@ namespace SpaceStrategySystem
         public const string HOURLY = "1 Hour";
         public const string FOUR_HOURS = "4 Hours";
         public const string DAILY = "1 Day";
+
+        public const int ONE_MINUTE = 60000;
         
-        //Default settings in case of XML read errors
-        //DateTime of now, Frequency of hourly
+        /*Default settings in case of XML read errors
+         *DateTime of now, Frequency of hourly*/
         private DateTime m_lastUpdate = DateTime.Now;
         private UpdateFrequency m_frequency = UpdateFrequency.Hourly;
         private DateTime m_nextUpdate;
+        private System.Timers.Timer m_timer;
         private Dictionary<UpdateFrequency, string> m_frequencyStrings = new Dictionary<UpdateFrequency,string>();
         private Dictionary<string, UpdateFrequency> m_frequencyEnums = new Dictionary<string,UpdateFrequency>();
 
@@ -54,19 +57,17 @@ namespace SpaceStrategySystem
         public MainForm()
         {
             InitializeComponent();
-            PopulateFrequencyStrings();
+            this.PopulateFrequencyStrings();
 
             //Extract XML values and update attributes
-            ReadXML();
+            this.ReadXML();
             this.SetFrequencyCombo();
             this.CalculateNextUpdate(); 
 
-            //TODO: Create Timer, lasting 60 seconds
-            //at timeout
-
-            //this.m_nextUpdate = (DateTime.Now - new TimeSpan(0, 15, 0)); //Testing UpdateSystem()
-            RunCheck();
-            //Recreate timer (Timer needs to pause while tick processing is occurring)
+            //Create Timer, lasting 60 seconds
+            this.m_timer = new System.Timers.Timer(ONE_MINUTE);
+            this.m_timer.Elapsed += new ElapsedEventHandler(this.RunCheck);
+            this.m_timer.Start();
         }
 
         private void PopulateFrequencyStrings()
@@ -148,6 +149,11 @@ namespace SpaceStrategySystem
             }
         }
 
+        private void RunCheck(object source, ElapsedEventArgs e)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate { RunCheck(); }));
+        }
+
         private void RunCheck()
         {
             if(this.m_nextUpdate < DateTime.Now)
@@ -158,14 +164,16 @@ namespace SpaceStrategySystem
 
         private void UpdateSystem()
         {
+            this.m_timer.Stop();
+
+            /* TODO: Expand on the below? Due to the minute wait of the timer the below will gradually make the tick time slide*/
+            this.m_lastUpdate = DateTime.Now;
+            this.CalculateNextUpdate();
+
             /* TODO: 
              * Connect to database
              * Action long list of database updates
-             * Close connection to database
-             */
-
-            this.m_lastUpdate = DateTime.Now;
-            this.CalculateNextUpdate();
+             * Close connection to database*/         
 
             //Update last update in XML
             XmlDocument file = new XmlDocument();
@@ -173,6 +181,8 @@ namespace SpaceStrategySystem
             XmlNode node = file.SelectSingleNode(XMLFields.Configuration + "/" + XMLFields.LastUpdate);
             node.InnerText = this.m_lastUpdate.ToString();
             file.Save(CONFIG_FILE);
+
+            this.m_timer.Start();
         }
 
         private void cmbTickFrequency_SelectionChangeCommitted(object sender, EventArgs e)
