@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Timers;
+using System.IO;
 
 namespace SpaceStrategySystem
 {
@@ -34,6 +35,7 @@ namespace SpaceStrategySystem
     public partial class MainForm : Form
     {
         public const string CONFIG_FILE = "config.xml";
+        public const string XML_TEMPLATE = "<Configuration><LastUpdate></LastUpdate><Frequency></Frequency><DatabaseAddress></DatabaseAddress><DatabaseUsername></DatabaseUsername><DatabasePassword></DatabasePassword></Configuration>";
 
         public const string QUARTER_HOUR = "15 Mins";
         public const string HALF_HOUR = "30 Mins";
@@ -87,29 +89,41 @@ namespace SpaceStrategySystem
 
         private void ReadXML()
         {
-            /* TODO: First check file exists. If not create a new one.*/
-
-            //Read in XML fields
-            XmlTextReader reader = new XmlTextReader(CONFIG_FILE);
-            string currentRead;
-
-            reader.ReadToFollowing(XMLFields.LastUpdate.ToString());
-            reader.MoveToFirstAttribute();
-            currentRead = reader.ReadElementContentAsString();
-            if (currentRead != "")
+            if (File.Exists((CONFIG_FILE)))
             {
-                this.m_lastUpdate = Convert.ToDateTime(currentRead);
-            }
+                //Read in XML fields
+                XmlTextReader reader = new XmlTextReader(CONFIG_FILE);
+                string currentRead;
+                DateTime dateValue;
+                int frequencyValue;
 
-            reader.ReadToFollowing(XMLFields.Frequency.ToString());
-            reader.MoveToFirstAttribute();
-            currentRead = reader.ReadElementContentAsString();
-            if (currentRead != "")
+                reader.ReadToFollowing(XMLFields.LastUpdate.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                if (DateTime.TryParse(currentRead, out dateValue))
+                {
+                    this.m_lastUpdate = dateValue;
+                }
+
+                reader.ReadToFollowing(XMLFields.Frequency.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                if (int.TryParse(currentRead, out frequencyValue))
+                {
+                    this.m_frequency = (UpdateFrequency)frequencyValue;
+                }
+
+                reader.Close();
+            }
+            else
             {
-                this.m_frequency = (UpdateFrequency)Convert.ToInt32(currentRead);
+                //Config file does not exist! Default values will be used and blank config file created.
+                XmlDocument file = new XmlDocument();
+                file.LoadXml(XML_TEMPLATE);
+                XmlTextWriter writer = new XmlTextWriter(CONFIG_FILE, null);
+                writer.Formatting = Formatting.Indented;
+                file.Save(writer);
             }
-
-            reader.Close();
         }
 
         private void SetFrequencyCombo()
