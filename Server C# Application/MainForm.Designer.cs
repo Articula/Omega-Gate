@@ -66,6 +66,7 @@
             this.Controls.Add(this.lblTick);
             this.Name = "MainForm";
             this.Text = "Space Strategy System";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

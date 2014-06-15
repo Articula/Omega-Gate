@@ -16,9 +16,9 @@ namespace SpaceStrategySystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            OmegaGateSystem system = new OmegaGateSystem();
 
-            //Pass XML read into MainForm
-            Application.Run(new MainForm());
+            Application.Run();
         }
     }
 }
