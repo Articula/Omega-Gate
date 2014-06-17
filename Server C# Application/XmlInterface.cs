@@ -14,23 +14,36 @@ namespace SpaceStrategySystem
         LastUpdate,
         Frequency,
         DatabaseAddress,
+        DatabaseName,
         DatabaseUsername,
         DatabasePassword
     };
 
     public delegate void PassLastUpdateHandler(DateTime dateValue);
     public delegate void PassFrequencyHandler(UpdateFrequency frequency);
+    public delegate void PassDbAddressHandler(string dbAddress);
+    public delegate void PassDbNameHandler(string dbName);
+    public delegate void PassDbUsernameHandler(string dbUsername);
+    public delegate void PassDbPasswordHandler(string dbPassword);
 
     class XmlInterface
     {
         public const string CONFIG_FILE = "config.xml";
-        public const string XML_TEMPLATE = "<Configuration><LastUpdate></LastUpdate><Frequency></Frequency><DatabaseAddress></DatabaseAddress><DatabaseUsername></DatabaseUsername><DatabasePassword></DatabasePassword></Configuration>";
+        public const string XML_TEMPLATE = "<Configuration><LastUpdate></LastUpdate><Frequency></Frequency><DatabaseAddress></DatabaseAddress><DatabaseName></DatabaseName><DatabaseUsername></DatabaseUsername><DatabasePassword></DatabasePassword></Configuration>";
 
         public event PassLastUpdateHandler PassLastUpdate;
         public event PassFrequencyHandler PassFrequency;
+        public event PassDbAddressHandler PassDbAddress;
+        public event PassDbNameHandler PassDbName;
+        public event PassDbUsernameHandler PassDbUsername;
+        public event PassDbPasswordHandler PassDbPassword;
 
         protected virtual void OnPassLastUpdate(DateTime dateValue) { PassLastUpdate(dateValue); }
         protected virtual void OnPassFrequency(UpdateFrequency frequency) { PassFrequency(frequency); }
+        protected virtual void OnPassDbAddress(string dbAddress) { PassDbAddress(dbAddress); }
+        protected virtual void OnPassDbName(string dbName) { PassDbName(dbName); }
+        protected virtual void OnPassDbUsername(string dbUsername) { PassDbUsername(dbUsername); }
+        protected virtual void OnPassDbPassword(string dbPassword) { PassDbPassword(dbPassword); }
 
 
         public void ReadXML()
@@ -43,6 +56,7 @@ namespace SpaceStrategySystem
                 DateTime dateValue;
                 int frequencyValue;
 
+                /*Read LastUpdate*/
                 reader.ReadToFollowing(XMLFields.LastUpdate.ToString());
                 reader.MoveToFirstAttribute();
                 currentRead = reader.ReadElementContentAsString();
@@ -50,7 +64,8 @@ namespace SpaceStrategySystem
                 {
                     this.PassLastUpdate(dateValue);
                 }
-
+                
+                /*Read Frequency*/
                 reader.ReadToFollowing(XMLFields.Frequency.ToString());
                 reader.MoveToFirstAttribute();
                 currentRead = reader.ReadElementContentAsString();
@@ -58,6 +73,30 @@ namespace SpaceStrategySystem
                 {
                     this.PassFrequency((UpdateFrequency)frequencyValue);
                 }
+
+                /*Read DatabaseAddress*/
+                reader.ReadToFollowing(XMLFields.DatabaseAddress.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                this.PassDbAddress(currentRead);
+
+                /*Read DatabaseName*/
+                reader.ReadToFollowing(XMLFields.DatabaseName.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                this.PassDbName(currentRead);
+
+                /*Read DatabaseUsername*/
+                reader.ReadToFollowing(XMLFields.DatabaseUsername.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                this.PassDbUsername(currentRead);
+
+                /*Read DatabasePassword*/
+                reader.ReadToFollowing(XMLFields.DatabasePassword.ToString());
+                reader.MoveToFirstAttribute();
+                currentRead = reader.ReadElementContentAsString();
+                this.PassDbPassword(currentRead);
 
                 reader.Close();
             }

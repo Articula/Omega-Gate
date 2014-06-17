@@ -38,14 +38,15 @@ namespace SpaceStrategySystem
         private Dictionary<UpdateFrequency, string> m_frequencyStrings = new Dictionary<UpdateFrequency, string>();
         private Dictionary<string, UpdateFrequency> m_frequencyEnums = new Dictionary<string, UpdateFrequency>();
 
-        //TODO: Database credentials
-
         public OmegaGateSystem()
         {
             this.AddHandlerEvents();
             this.PopulateFrequencyStrings();
             this.m_xmlInterface.ReadXML();
             this.CalculateNextUpdate();
+
+            //Temporary test
+            this.m_database.DBConnectionTest();
 
             //Create Timer, lasting 60 seconds
             this.m_timer = new System.Timers.Timer(ONE_MINUTE);
@@ -60,6 +61,10 @@ namespace SpaceStrategySystem
         {
             this.m_xmlInterface.PassLastUpdate += new PassLastUpdateHandler(this.UpdateLastUpdateTime);
             this.m_xmlInterface.PassFrequency += new PassFrequencyHandler(this.UpdateTickFrequency);
+            this.m_xmlInterface.PassDbAddress += new PassDbAddressHandler(this.PassDbAddress);
+            this.m_xmlInterface.PassDbName += new PassDbNameHandler(this.PassDbName);
+            this.m_xmlInterface.PassDbUsername += new PassDbUsernameHandler(this.PassDbUsername);
+            this.m_xmlInterface.PassDbPassword += new PassDbPasswordHandler(this.PassDbPassword);
             this.m_mainForm.PassFrequencyUpdate += new PassFrequencyUpdateHandler(this.UpdateTickFrequency);
         }
 
@@ -93,6 +98,30 @@ namespace SpaceStrategySystem
         {
             this.m_frequency = this.m_frequencyEnums[frequency];
             this.m_xmlInterface.CommitFrequencyUpdate(Convert.ToInt32(this.m_frequency));
+        }
+
+        private void PassDbAddress(string dbAddress)
+        {
+            this.m_database.SetDbAddress(dbAddress);
+            //Pass to Mainform field
+        }
+
+        private void PassDbName(string dbName)
+        {
+            this.m_database.SetDbName(dbName);
+            //Pass to Mainform field
+        }
+
+        private void PassDbUsername(string dbUsername)
+        {
+            this.m_database.SetDbUsername(dbUsername);
+            //Pass to Mainform field
+        }
+
+        private void PassDbPassword(string dbPassword)
+        {
+            this.m_database.SetDbPassword(dbPassword);
+            //Pass to Mainform field
         }
 
         private void CalculateNextUpdate()
