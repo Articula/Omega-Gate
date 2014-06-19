@@ -103,25 +103,25 @@ namespace SpaceStrategySystem
         private void PassDbAddress(string dbAddress)
         {
             this.m_database.SetDbAddress(dbAddress);
-            //Pass to Mainform field
+            this.m_mainForm.SetDbAddress(dbAddress);
         }
 
         private void PassDbName(string dbName)
         {
             this.m_database.SetDbName(dbName);
-            //Pass to Mainform field
+            this.m_mainForm.SetDbName(dbName);
         }
 
         private void PassDbUsername(string dbUsername)
         {
             this.m_database.SetDbUsername(dbUsername);
-            //Pass to Mainform field
+            this.m_mainForm.SetDbUsername(dbUsername);
         }
 
         private void PassDbPassword(string dbPassword)
         {
             this.m_database.SetDbPassword(dbPassword);
-            //Pass to Mainform field
+            this.m_mainForm.SetDbPassword(dbPassword);
         }
 
         private void CalculateNextUpdate()
