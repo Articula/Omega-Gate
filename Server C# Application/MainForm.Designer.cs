@@ -39,12 +39,17 @@
             this.lblDbName = new System.Windows.Forms.Label();
             this.lblDbUsername = new System.Windows.Forms.Label();
             this.lblDbPassword = new System.Windows.Forms.Label();
+            this.grpDatabase = new System.Windows.Forms.GroupBox();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.grpDatabase.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTick
             // 
             this.lblTick.AutoSize = true;
-            this.lblTick.Location = new System.Drawing.Point(12, 21);
+            this.lblTick.Location = new System.Drawing.Point(12, 16);
             this.lblTick.Name = "lblTick";
             this.lblTick.Size = new System.Drawing.Size(84, 13);
             this.lblTick.TabIndex = 0;
@@ -60,7 +65,7 @@
             "1 Hour",
             "4 Hours",
             "1 Day"});
-            this.cmbTickFrequency.Location = new System.Drawing.Point(15, 37);
+            this.cmbTickFrequency.Location = new System.Drawing.Point(15, 32);
             this.cmbTickFrequency.Name = "cmbTickFrequency";
             this.cmbTickFrequency.Size = new System.Drawing.Size(121, 21);
             this.cmbTickFrequency.TabIndex = 1;
@@ -69,7 +74,8 @@
             // chkLocalHost
             // 
             this.chkLocalHost.AutoSize = true;
-            this.chkLocalHost.Location = new System.Drawing.Point(114, 96);
+            this.chkLocalHost.Enabled = false;
+            this.chkLocalHost.Location = new System.Drawing.Point(114, 26);
             this.chkLocalHost.Name = "chkLocalHost";
             this.chkLocalHost.Size = new System.Drawing.Size(72, 17);
             this.chkLocalHost.TabIndex = 2;
@@ -79,37 +85,41 @@
             // 
             // txtAddress
             // 
-            this.txtAddress.Location = new System.Drawing.Point(207, 93);
+            this.txtAddress.Enabled = false;
+            this.txtAddress.Location = new System.Drawing.Point(207, 23);
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(161, 20);
             this.txtAddress.TabIndex = 3;
             // 
             // txtDbName
             // 
-            this.txtDbName.Location = new System.Drawing.Point(114, 177);
+            this.txtDbName.Enabled = false;
+            this.txtDbName.Location = new System.Drawing.Point(114, 107);
             this.txtDbName.Name = "txtDbName";
             this.txtDbName.Size = new System.Drawing.Size(100, 20);
-            this.txtDbName.TabIndex = 4;
+            this.txtDbName.TabIndex = 6;
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(114, 121);
+            this.txtUsername.Enabled = false;
+            this.txtUsername.Location = new System.Drawing.Point(114, 51);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
-            this.txtUsername.TabIndex = 5;
+            this.txtUsername.TabIndex = 4;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(114, 148);
+            this.txtPassword.Enabled = false;
+            this.txtPassword.Location = new System.Drawing.Point(114, 78);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
-            this.txtPassword.TabIndex = 6;
+            this.txtPassword.TabIndex = 5;
             // 
             // lblAddress
             // 
             this.lblAddress.AutoSize = true;
-            this.lblAddress.Location = new System.Drawing.Point(6, 96);
+            this.lblAddress.Location = new System.Drawing.Point(6, 26);
             this.lblAddress.Name = "lblAddress";
             this.lblAddress.Size = new System.Drawing.Size(82, 13);
             this.lblAddress.TabIndex = 7;
@@ -118,7 +128,7 @@
             // lblDbName
             // 
             this.lblDbName.AutoSize = true;
-            this.lblDbName.Location = new System.Drawing.Point(6, 177);
+            this.lblDbName.Location = new System.Drawing.Point(6, 107);
             this.lblDbName.Name = "lblDbName";
             this.lblDbName.Size = new System.Drawing.Size(87, 13);
             this.lblDbName.TabIndex = 8;
@@ -127,7 +137,7 @@
             // lblDbUsername
             // 
             this.lblDbUsername.AutoSize = true;
-            this.lblDbUsername.Location = new System.Drawing.Point(6, 123);
+            this.lblDbUsername.Location = new System.Drawing.Point(6, 53);
             this.lblDbUsername.Name = "lblDbUsername";
             this.lblDbUsername.Size = new System.Drawing.Size(107, 13);
             this.lblDbUsername.TabIndex = 9;
@@ -136,31 +146,78 @@
             // lblDbPassword
             // 
             this.lblDbPassword.AutoSize = true;
-            this.lblDbPassword.Location = new System.Drawing.Point(6, 150);
+            this.lblDbPassword.Location = new System.Drawing.Point(6, 80);
             this.lblDbPassword.Name = "lblDbPassword";
             this.lblDbPassword.Size = new System.Drawing.Size(105, 13);
             this.lblDbPassword.TabIndex = 10;
             this.lblDbPassword.Text = "Database Password:";
             // 
+            // grpDatabase
+            // 
+            this.grpDatabase.Controls.Add(this.btnCancel);
+            this.grpDatabase.Controls.Add(this.btnOk);
+            this.grpDatabase.Controls.Add(this.btnEdit);
+            this.grpDatabase.Controls.Add(this.txtUsername);
+            this.grpDatabase.Controls.Add(this.lblDbPassword);
+            this.grpDatabase.Controls.Add(this.chkLocalHost);
+            this.grpDatabase.Controls.Add(this.lblDbUsername);
+            this.grpDatabase.Controls.Add(this.txtAddress);
+            this.grpDatabase.Controls.Add(this.lblDbName);
+            this.grpDatabase.Controls.Add(this.txtDbName);
+            this.grpDatabase.Controls.Add(this.lblAddress);
+            this.grpDatabase.Controls.Add(this.txtPassword);
+            this.grpDatabase.Location = new System.Drawing.Point(8, 68);
+            this.grpDatabase.Name = "grpDatabase";
+            this.grpDatabase.Size = new System.Drawing.Size(379, 170);
+            this.grpDatabase.TabIndex = 11;
+            this.grpDatabase.TabStop = false;
+            this.grpDatabase.Text = "Database Details";
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(145, 140);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 11;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(53, 140);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 12;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Visible = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(238, 140);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 13;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 234);
-            this.Controls.Add(this.lblDbPassword);
-            this.Controls.Add(this.lblDbUsername);
-            this.Controls.Add(this.lblDbName);
-            this.Controls.Add(this.lblAddress);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.txtDbName);
-            this.Controls.Add(this.txtAddress);
-            this.Controls.Add(this.chkLocalHost);
+            this.ClientSize = new System.Drawing.Size(395, 245);
+            this.Controls.Add(this.grpDatabase);
             this.Controls.Add(this.cmbTickFrequency);
             this.Controls.Add(this.lblTick);
             this.Name = "MainForm";
             this.Text = "Space Strategy System";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
+            this.grpDatabase.ResumeLayout(false);
+            this.grpDatabase.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,6 +236,10 @@
         private System.Windows.Forms.Label lblDbName;
         private System.Windows.Forms.Label lblDbUsername;
         private System.Windows.Forms.Label lblDbPassword;
+        private System.Windows.Forms.GroupBox grpDatabase;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
 
