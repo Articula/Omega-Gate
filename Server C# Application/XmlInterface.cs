@@ -132,5 +132,25 @@ namespace SpaceStrategySystem
             node.InnerText = frequency.ToString();
             file.Save(CONFIG_FILE);
         }
+
+        public void CommitDbNameUpdate(string dbName)
+        {
+            /*TODO: Put in another check for XML file (/generate if not) here*/
+            XmlDocument file = new XmlDocument();
+            file.Load(CONFIG_FILE);
+            XmlNode node = file.SelectSingleNode(XMLFields.Configuration + "/" + XMLFields.DatabaseName);
+            node.InnerText = dbName;
+            file.Save(CONFIG_FILE);
+        }
+
+        public void CommitDbUsernameUpdate(string dbUsername)
+        {
+            /*TODO: Put in another check for XML file (/generate if not) here*/
+            XmlDocument file = new XmlDocument();
+            file.Load(CONFIG_FILE);
+            XmlNode node = file.SelectSingleNode(XMLFields.Configuration + "/" + XMLFields.DatabaseUsername);
+            node.InnerText = dbUsername;
+            file.Save(CONFIG_FILE);
+        }
     }
 }

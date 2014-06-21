@@ -11,12 +11,24 @@ using System.Windows.Forms;
 namespace SpaceStrategySystem
 {
     public delegate void PassFrequencyUpdateHandler(string frequency);
+    //dbAddress
+    public delegate void UpdateDbNameHandler(string name);
+    public delegate void UpdateDbUsernameHandler(string username);
+    public delegate void UpdateDbPasswordHandler(string password);
 
     public partial class MainForm : Form
     {
         public event PassFrequencyUpdateHandler PassFrequencyUpdate;
+        //dbAddress
+        public event UpdateDbNameHandler UpdateDbName;
+        public event UpdateDbUsernameHandler UpdateUsername;
+        public event UpdateDbPasswordHandler UpdatePassword;
 
         protected virtual void OnPassFrequencyUpdate(string frequency) { PassFrequencyUpdate(frequency); }
+        //dbAddress
+        protected virtual void OnUpdateDbName(string name) { UpdateDbName(name); }
+        protected virtual void OnUpdateUsername(string username) { UpdateUsername(username); }
+        protected virtual void OnUpdatePassword(string password) { UpdatePassword(password); }
 
         /*Default connection values*/
         private string m_previousDbAddress = "localhost";
@@ -114,6 +126,18 @@ namespace SpaceStrategySystem
             * Check entered data against what is currently stored as the current entries
             * Update MainForm variables accordingly
             * Send changed fields up to OmegaSystem for processing*/
+
+            if(!this.txtDbName.Text.Equals(this.m_previousDbName))
+            {
+                this.m_previousDbName = this.txtDbName.Text;
+                this.OnUpdateDbName(this.m_previousDbName);
+            }
+
+            if(!this.txtUsername.Text.Equals(this.m_previousDbUsername))
+            {
+                this.m_previousDbUsername = this.txtUsername.Text;
+                this.OnUpdateUsername(this.m_previousDbUsername);
+            }
 
             //IsTextAValidIPAddress();
 

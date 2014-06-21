@@ -66,6 +66,8 @@ namespace SpaceStrategySystem
             this.m_xmlInterface.PassDbUsername += new PassDbUsernameHandler(this.PassDbUsername);
             this.m_xmlInterface.PassDbPassword += new PassDbPasswordHandler(this.PassDbPassword);
             this.m_mainForm.PassFrequencyUpdate += new PassFrequencyUpdateHandler(this.UpdateTickFrequency);
+            this.m_mainForm.UpdateDbName += new UpdateDbNameHandler(this.UpdateDbName);
+            this.m_mainForm.UpdateUsername += new UpdateDbUsernameHandler(this.UpdateDbUsername);
         }
 
         private void PopulateFrequencyStrings()
@@ -112,10 +114,22 @@ namespace SpaceStrategySystem
             this.m_mainForm.SetDbName(dbName);
         }
 
+        private void UpdateDbName(string dbName)
+        {
+            this.m_database.SetDbName(dbName);
+            this.m_xmlInterface.CommitDbNameUpdate(dbName);
+        }
+
         private void PassDbUsername(string dbUsername)
         {
             this.m_database.SetDbUsername(dbUsername);
             this.m_mainForm.SetDbUsername(dbUsername);
+        }
+
+        private void UpdateDbUsername(string username)
+        {
+            this.m_database.SetDbUsername(username);
+            this.m_xmlInterface.CommitDbUsernameUpdate(username);
         }
 
         private void PassDbPassword(string dbPassword)
